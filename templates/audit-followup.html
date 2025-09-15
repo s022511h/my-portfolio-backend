@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{emailTitle}}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2d3748;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .section h3 {
+            color: #4a5568;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .section p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .tip-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tip-card h4 {
+            color: #2d3748;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .tip-card p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+        
+        .tip-card .steps {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .tip-card .steps strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .tip-card .steps ol {
+            margin-left: 20px;
+            color: #4a5568;
+        }
+        
+        .tip-card .steps li {
+            margin-bottom: 6px;
+        }
+
+        .progress-indicator {
+            background: #e2e8f0;
+            height: 6px;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #4a5568;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .cta-section h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .cta-section p {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        
+        .social-proof {
+            background: #f0fff4;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #38a169;
+            margin: 20px 0;
+        }
+        
+        .testimonial {
+            font-style: italic;
+            color: #22543d;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-author {
+            font-size: 14px;
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: #2d3748;
+            color: #a0aec0;
+            padding: 25px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .footer h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .header,
+            .content,
+            .footer {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>{{emailTitle}}</h1>
+            <div class="subtitle">{{emailSubtitle}}</div>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                Hi {{firstName}}!
+            </div>
+            
+            {{#if isWeek1}}
+            <div class="section">
+                <p>It's been a week since your website audit, and we wanted to follow up with your top 3 quick wins that can make an immediate impact on your site's performance.</p>
+                
+                <div class="progress-indicator">
+                    <div class="progress-fill" style="width: 25%;"></div>
+                </div>
+                <p style="text-align: center; color: #718096; font-size: 14px;">Week 1 of your optimization journey</p>
+                
+                <h2>Your Top 3 Quick Wins</h2>
+                
+                <div class="tip-card">
+                    <h4>1. Optimize Your Images</h4>
+                    <p>Large images are often the biggest culprit for slow loading times. Here's how to fix this quickly:</p>
+                    <div class="steps">
+                        <strong>Easy fixes:</strong>
+                        <ol>
+                            <li>Use tools like TinyPNG or ImageOptim to compress images</li>
+                            <li>Convert images to modern formats (WebP, AVIF)</li>
+                            <li>Add proper width and height attributes to prevent layout shifts</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>2. Add Missing Alt Text</h4>
+                    <p>Alt text helps both search engines and screen readers understand your images:</p>
+                    <div class="steps">
+                        <strong>Quick implementation:</strong>
+                        <ol>
+                            <li>Review all images on your site</li>
+                            <li>Add descriptive alt attributes that explain what's in the image</li>
+                            <li>Use empty alt="" for decorative images</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>3. Enable Browser Caching</h4>
+                    <p>Make returning visitors load your site faster by enabling caching:</p>
+                    <div class="steps">
+                        <strong>Implementation guide:</strong>
+                        <ol>
+                            <li>Add cache headers to your server configuration</li>
+                            <li>Set appropriate expiration times for different file types</li>
+                            <li>Test with tools like GTmetrix to verify caching is working</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <h3>Questions About Implementation?</h3>
+                    <p>Our team is here to help you implement these optimizations quickly and correctly.</p>
+                    <a href="{{contactUrl}}" class="btn btn-primary">Get Implementation Help</a>
+                </div>
+            </div>
+            {{/if}}
+            
+            {{#if isWeek2}}
+            <div class="section">
+                <p>Welcome to week 2 of your optimization journey! Ready to dive deeper into advanced strategies that will set your website apart from the competition?</p>
+                
+                <div class="progress-indicator">
+                    <div class="progress-fill" style="width: 50%;"></div>
+                </div>
+                <p style="text-align: center; color: #718096; font-size: 14px;">Week 2 - Advanced optimization strategies</p>
+                
+                <h2>Advanced Optimization Strategies</h2>
+                
+                <div class="tip-card">
+                    <h4>Core Web Vitals Optimization</h4>
+                    <p>Google's Core Web Vitals are now ranking factors. Here's how to excel:</p>
+                    <div class="steps">
+                        <strong>Focus areas:</strong>
+                        <ol>
+                            <li><strong>LCP (Largest Contentful Paint):</strong> Optimize your largest visible element</li>
+                            <li><strong>FID (First Input Delay):</strong> Minimize JavaScript execution time</li>
+                            <li><strong>CLS (Cumulative Layout Shift):</strong> Prevent unexpected layout changes</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Technical SEO Deep Dive</h4>
+                    <p>Beyond basic optimization - advanced SEO techniques that drive results:</p>
+                    <div class="steps">
+                        <strong>Advanced tactics:</strong>
+                        <ol>
+                            <li>Implement structured data markup for rich snippets</li>
+                            <li>Optimize for featured snippets with targeted content</li>
+                            <li>Create topic clusters and pillar pages</li>
+                            <li>Improve internal linking with strategic anchor text</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Mobile-First Optimization</h4>
+                    <p>With mobile-first indexing, your mobile experience is crucial:</p>
+                    <div class="steps">
+                        <strong>Mobile priorities:</strong>
+                        <ol>
+                            <li>Implement responsive design with flexible grids</li>
+                            <li>Optimize touch targets (minimum 44px)</li>
+                            <li>Improve mobile page speed (target under 3 seconds)</li>
+                            <li>Test across multiple devices and screen sizes</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="social-proof">
+                    <div class="testimonial">
+                        "After implementing the advanced strategies from N15 Labs, our mobile conversion rate increased by 40% in just two weeks!"
+                    </div>
+                    <div class="testimonial-author">- Sarah Chen, E-commerce Director</div>
+                </div>
+            </div>
+            {{/if}}
+            
+            {{#if isMonth1}}
+            <div class="section">
+                <p>Congratulations on completing your first month of optimization! Let's check your progress and plan the next phase of your website's evolution.</p>
+                
+                <div class="progress-indicator">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+                <p style="text-align: center; color: #718096; font-size: 14px;">Month 1 complete - Time for next-level strategies</p>
+                
+                <h2>Your Optimization Journey So Far</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">{{daysActive}}</div>
+                        <div class="stat-label">Days Active</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{tasksCompleted}}</div>
+                        <div class="stat-label">Tasks Done</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{improvementPercent}}%</div>
+                        <div class="stat-label">Improvement</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{toolsLaunched}}</div>
+                        <div class="stat-label">New Tools</div>
+                    </div>
+                </div>
+                
+                <h2>What's New at N15 Labs</h2>
+                
+                <div class="tip-card">
+                    <h4>New Tool: Performance Monitor</h4>
+                    <p>Get real-time insights into your website's performance with our new monitoring dashboard. Track Core Web Vitals, uptime, and user experience metrics automatically.</p>
+                    <div class="steps">
+                        <strong>Features include:</strong>
+                        <ol>
+                            <li>Real-time performance monitoring</li>
+                            <li>Automated Core Web Vitals tracking</li>
+                            <li>Weekly performance reports</li>
+                            <li>Alert system for performance issues</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Case Study: E-commerce Success</h4>
+                    <p>See how TechGear Plus increased their conversion rate by 65% using our optimization strategies:</p>
+                    <div class="steps">
+                        <strong>Key improvements:</strong>
+                        <ol>
+                            <li>Page load time reduced from 8.2s to 2.1s</li>
+                            <li>Mobile usability score improved to 98/100</li>
+                            <li>Added structured data for product reviews</li>
+                            <li>Implemented progressive web app features</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <h3>Ready for Advanced Optimization?</h3>
+                    <p>Take your website to the next level with our comprehensive optimization service. Get personalized recommendations and hands-on implementation support.</p>
+                    <a href="{{upgradeUrl}}" class="btn btn-primary">Explore Premium Services</a>
+                    <br><br>
+                    <a href="{{caseStudyUrl}}" class="btn btn-outline">Read Full Case Study</a>
+                </div>
+                
+                <h2>Long-term Optimization Strategy</h2>
+                
+                <div class="tip-card">
+                    <h4>Content Strategy for SEO</h4>
+                    <p>Build authority and drive organic traffic with strategic content:</p>
+                    <div class="steps">
+                        <strong>Content roadmap:</strong>
+                        <ol>
+                            <li>Conduct comprehensive keyword research</li>
+                            <li>Create pillar content for main topics</li>
+                            <li>Develop supporting cluster content</li>
+                            <li>Implement consistent publishing schedule</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="tip-card">
+                    <h4>Conversion Rate Optimization</h4>
+                    <p>Turn more visitors into customers with data-driven optimization:</p>
+                    <div class="steps">
+                        <strong>CRO essentials:</strong>
+                        <ol>
+                            <li>Set up proper analytics and goal tracking</li>
+                            <li>Analyze user behavior with heatmaps</li>
+                            <li>A/B test key pages and elements</li>
+                            <li>Optimize your conversion funnel</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            
+            {{#if isNewsletter}}
+            <div class="section">
+                <p>Your monthly dose of web optimization insights, tool updates, and industry trends to keep your website performing at its best.</p>
+                
+                <h2>This Month's Highlights</h2>
+                
+                <div class="tip-card">
+                    <h4>{{feature1Title}}</h4>
+                    <p>{{feature1Description}}</p>
+                    {{#if feature1Steps}}
+                    <div class="steps">
+                        <strong>{{feature1StepsTitle}}:</strong>
+                        <ol>
+                            {{#each feature1Steps}}
+                            <li>{{this}}</li>
+                            {{/each}}
+                        </ol>
+                    </div>
+                    {{/if}}
+                </div>
+                
+                <div class="tip-card">
+                    <h4>{{feature2Title}}</h4>
+                    <p>{{feature2Description}}</p>
+                    {{#if feature2Steps}}
+                    <div class="steps">
+                        <strong>{{feature2StepsTitle}}:</strong>
+                        <ol>
+                            {{#each feature2Steps}}
+                            <li>{{this}}</li>
+                            {{/each}}
+                        </ol>
+                    </div>
+                    {{/if}}
+                </div>
+                
+                {{#if socialProof}}
+                <div class="social-proof">
+                    <div class="testimonial">{{socialProof.quote}}</div>
+                    <div class="testimonial-author">- {{socialProof.author}}</div>
+                </div>
+                {{/if}}
+                
+                <div class="cta-section">
+                    <h3>{{ctaTitle}}</h3>
+                    <p>{{ctaDescription}}</p>
+                    <a href="{{ctaUrl}}" class="btn btn-primary">{{ctaButtonText}}</a>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+        
+        <div class="footer">
+            <h4>N15 Labs</h4>
+            <p>Building better websites, one optimization at a time.</p>
+            
+            <p style="margin-top: 15px;">
+                Questions? Reply to this email or contact us at 
+                <a href="mailto:hello@n15labs.com">hello@n15labs.com</a>
+            </p>
+            
+            <p style="margin-top: 15px; font-size: 12px;">
+                You're receiving this because you signed up for website optimization tips from N15 Labs.<br>
+                <a href="{{unsubscribeUrl}}">Unsubscribe</a> | 
+                <a href="{{preferencesUrl}}">Update Preferences</a> | 
+                <a href="{{privacyUrl}}">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
