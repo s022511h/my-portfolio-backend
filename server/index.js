@@ -1472,23 +1472,42 @@ app.get('/api/health', (req, res) => {
 });
 
 // GET /api/user/profile - Get user profile (FIXED PATH!)
+// GET /api/user/profile - Get user profile (AUTO-CREATES USER IF NOT EXISTS)
 app.get('/api/user/profile', authenticateToken, async (req, res) => {
   try {
     const firebaseUid = req.user.uid;
-    const email = req.user.email;
+    const email = req.user.email || '';
+    const emailVerified = req.user.email_verified || false;
     
     console.log('Fetching profile for:', email);
     
-    const userResult = await dbQuery(
-      'SELECT id, email, first_name, last_name, created_at, updated_at, is_beta_user, is_admin, last_login FROM users WHERE firebase_uid = $1',
+    let userResult = await dbQuery(
+      'SELECT id, email, first_name, last_name, created_at, updated_at, is_beta_user, is_admin, last_login, email_verified FROM users WHERE firebase_uid = $1',
       [firebaseUid]
     );
     
+    // If user doesn't exist, create them automatically
     if (!userResult || userResult.length === 0) {
-      return res.status(404).json({ 
-        success: false, 
-        error: 'User not found in database' 
-      });
+      console.log('⚠️ User not found, creating new user:', email);
+      
+      const insertResult = await dbQuery(
+        `INSERT INTO users (firebase_uid, email, email_verified, is_beta_user, created_at, updated_at, last_login) 
+         VALUES ($1, $2, $3, true, NOW(), NOW(), NOW()) 
+         RETURNING id, email, first_name, last_name, created_at, updated_at, is_beta_user, is_admin, last_login, email_verified`,
+        [firebaseUid, email, emailVerified]
+      );
+      
+      userResult = insertResult;
+      
+      // Create default consents for new user
+      const userId = insertResult[0].id;
+      await dbQuery(
+        `INSERT INTO user_consents (user_id, consent_type, is_granted, granted_at) 
+         VALUES ($1, 'necessary', true, NOW()), ($2, 'analytics', false, NOW()), ($3, 'marketing', false, NOW())`,
+        [userId, userId, userId]
+      );
+      
+      console.log('✓ New user created:', userId);
     }
     
     const user = userResult[0];
