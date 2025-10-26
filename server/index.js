@@ -2122,6 +2122,46 @@ app.post('/api/emails/marketing/send', authenticateToken, requireAdmin, async (r
   }
 });
 
+// ============================================
+// ANALYTICS ENDPOINTS
+// ============================================
+
+// POST /api/analytics/track - Track page visits and events
+app.post('/api/analytics/track', async (req, res) => {
+  try {
+    const { page, event, websiteUrl, timestamp, referrer, userAgent } = req.body;
+    
+    // You can store this in your database if needed
+    console.log('📊 Analytics tracked:', {
+      page: page || 'unknown',
+      event: event || 'page-visit',
+      websiteUrl: websiteUrl || 'N/A',
+      timestamp: timestamp || new Date().toISOString(),
+      referrer: referrer || 'direct',
+      userAgent: userAgent ? userAgent.substring(0, 100) : 'unknown'
+    });
+    
+    // Optional: Store in database
+    // await dbQuery(`
+    //   INSERT INTO analytics_events (page, event, website_url, timestamp, referrer, user_agent)
+    //   VALUES ($1, $2, $3, $4, $5, $6)
+    // `, [page, event, websiteUrl, timestamp, referrer, userAgent]);
+    
+    res.json({
+      success: true,
+      message: 'Analytics tracked successfully'
+    });
+    
+  } catch (error) {
+    console.error('Analytics tracking error:', error);
+    // Don't fail the request if analytics fails
+    res.json({
+      success: true,
+      message: 'Analytics tracking skipped'
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`✓ Audit server running on port ${PORT}`);
   console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
